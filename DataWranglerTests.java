@@ -33,7 +33,7 @@ public class DataWranglerTests {
 
     /**
      * This test checks that the Park object correctly instantiates and stores data in its
-     * variables, and that the Character object’s accessor methods return the expected values
+     * variables, and that the Park object’s accessor methods return the expected values
      */
     @Test
     public void testParkObj() {
@@ -49,7 +49,7 @@ public class DataWranglerTests {
     }
 
     /**
-     * This test checks that CharacterDataReader returns a List of Character objects correctly
+     * This test checks that ParkDataReader returns a List of Character objects correctly
      * corresponding to a given CSV file.
      */
     @Test
@@ -103,8 +103,8 @@ public class DataWranglerTests {
     }
 
     /**
-     * This test checks that Character’s compareTo() method is correctly comparing whether or not a
-     * Character is greater or less than another Character based on total power.
+     * This test checks that Park’s compareTo() method is correctly comparing whether or not a
+     * Park is greater or less than another Park based on total power.
      */
     @Test
     public void testParkCompareTo() {
@@ -127,8 +127,8 @@ public class DataWranglerTests {
     }
 
     /**
-     * This test checks if the Character list returned from the readData() method is correct when
-     * reading from the full character_stats.csv file.
+     * This test checks if the Park list returned from the readData() method is correct when
+     * reading from the full national_parks.csv file.
      */
     @Test
     public void testParkDataReaderFull() {
