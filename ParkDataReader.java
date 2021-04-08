@@ -17,6 +17,10 @@ import java.io.BufferedReader;
 public class ParkDataReader {
 
   List<Park> parkList;
+  
+  public ParkDataReader() {
+     
+  }
 
   /**
    * This method reads the data from the file and instantiates Park objects accordingly.
