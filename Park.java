@@ -140,4 +140,13 @@ public class Park implements ParkInterface {
             return otherCharacter.getName().compareTo(this.name);
         }
     }
+    
+    /**
+     * Returns the string representation of the Park object.
+     * @return the park name
+     */
+    @Override
+    public String toString() {
+      return this.name; 
+    }
 }
