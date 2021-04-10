@@ -64,7 +64,7 @@ public class ParkDataReader {
    * @throws IOException
    * @throws DataFormatException
    */
-  public List<Park> readDataDescriptions(Reader inputFileReader) throws IOException, DataFormatException {
+  public List<List<String>> readDataDescriptions(Reader inputFileReader) throws IOException, DataFormatException {
       if (inputFileReader == null)
         throw new NullPointerException("Reader is null");
 
