@@ -73,6 +73,6 @@ public class ParkDataReader {
           .collect(Collectors.toList());
       
 //      .map(line -> line.replaceAll("\"", ""))
-
+      }
   }
 }
