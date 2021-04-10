@@ -62,45 +62,17 @@ public class ParkDataReader {
    * @throws IOException
    * @throws DataFormatException
    */
-  public List<Park> readDataDescriptions(Reader inputFileReader, List<Park> list) throws IOException, DataFormatException {
-    if (inputFileReader == null)
-      throw new NullPointerException("Reader is null");
-    if (list == null) 
-      throw new NullPointerException("Park list not initialized and is null");
-    BufferedReader buffReader = new BufferedReader(inputFileReader);
-    String dataLine = "";
-    String[] data = null;
-    String[] header = null;
-    boolean headerFlag = true;
-    String name = null;
-    String description = null;
-    String states = null;
-    while ((dataLine = buffReader.readLine()) != null) {
-      if (headerFlag) {
-        header = dataLine.split(","); // get String array for header 
-        headerFlag = false;
-      } else {
-        data = dataLine.split(",\"");
-        name = data[0];
-        if(data.length != 3) {
-          data = data[1].split("\",");
-          description = data[0].replaceAll("\"", "");
-          states = data[1].replaceAll("\"","");
-        } else {
-          description = data[1].replaceAll("\"","");
-          states = data[2].replaceAll("\"","");
-        }
-        
-        for(int i = 0; i < parkList.size(); i++) {
-          if(list.get(i).getName().equals(name)) {
-            list.get(i).setStates(states);
-            list.get(i).setDescription(description);
-            break;
-          }
-        }
-      }
-    }
-    buffReader.close();
-    return parkList;
+  public List<Park> readDataDescriptions(Reader inputFileReader) throws IOException, DataFormatException {
+      if (inputFileReader == null)
+        throw new NullPointerException("Reader is null");
+
+      try (BufferedReader br = new BufferedReader(inputFileReader)) {
+        br.readLine(); 
+        return br.lines()
+          .map(line -> Arrays.asList(line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)")))
+          .collect(Collectors.toList());
+      
+//      .map(line -> line.replaceAll("\"", ""))
+
   }
 }
