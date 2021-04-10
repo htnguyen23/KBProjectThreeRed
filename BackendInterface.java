@@ -11,6 +11,6 @@ public interface BackendInterface<T>{
   
   public boolean addToItinerary(String end); 
   public boolean removeFromItinerary(String end);
-  public Set<T> getItinerary();
+  public List<List<T>> getItinerary();
   
 }
