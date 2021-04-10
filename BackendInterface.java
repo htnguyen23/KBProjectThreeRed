@@ -9,7 +9,7 @@ public interface BackendInterface<T>{
   
   public List<T> getRandPath(); // return a random path to a destination 
   
-  public boolean addToItinerary(String end); 
+  public boolean addToItinerary(); 
   public boolean removeFromItinerary(String end);
   public List<List<T>> getItinerary();
   
