@@ -4,7 +4,7 @@ import java.util.Set;
 public interface BackendInterface<T>{
  
   public List<T> getPathSequence(String end);
-  public List<T> getThreeParks(); //number of returned elements subject to change
+  public List<T> getAllParks(); //number of returned elements subject to change
   public int shortestPath(String end); 
   
   public List<T> getRandPath(); // return a random path to a destination 
