@@ -127,6 +127,8 @@ public class Backend implements BackendInterface<ParkInterface> {
 
   @Override
   public boolean removeFromItinerary(String end) {
+    if(this.itinerary.isEmpty())
+      throw new NoSuchElementException();     
     for(List<ParkInterface>innerList: itinerary) {
       int size = innerList.size(); 
       if(innerList.get(size - 1).toString().equals(end)) {
