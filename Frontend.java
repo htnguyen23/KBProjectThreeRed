@@ -130,7 +130,6 @@ public class Frontend {
 
           System.out.println("\nWould you like to save this itinerary to your list?"
               + "\n___________________________________________" + "\nY - Yes! This looks fun!"
-              + "\nN - No. I want to go somewhere else."
               + "\nx - I want to go back to the main menu.");
           do {
             userInput = scan.nextLine().trim().toLowerCase();
@@ -149,8 +148,7 @@ public class Frontend {
                   break;
                 }
             }
-            if (!userInput.equalsIgnoreCase("y") && !userInput.equalsIgnoreCase("n")
-                && !userInput.equalsIgnoreCase("x")) {
+            if (!userInput.equalsIgnoreCase("y") && !userInput.equalsIgnoreCase("x")) {
               System.out.println("Unable to recognize the input. Please try again.");
             }
           } while (!userInput.equalsIgnoreCase("x"));
