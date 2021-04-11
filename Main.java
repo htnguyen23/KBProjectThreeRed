@@ -17,14 +17,15 @@ public class Main {
     if (args == null) {
       System.out.println("<<< Please enter a .csv filename >>>");
       return;
-    } else if (args.length != 1) {
+    } else if (args.length != 2) {
       System.out.println("<<< Incorrect number of arguments >>>");
     }
 
-    String csvFilepath = args[0];
+    String firstFile = args[0];
+    String secondFile = args[1];
     Backend backend;
     try {
-      backend = new Backend(csvFilepath);
+      backend = new Backend(firstFile, secondFile);
       Frontend frontend = new Frontend();
       frontend.run(backend);
     } catch (IOException ioe) {
