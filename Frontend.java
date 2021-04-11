@@ -228,30 +228,57 @@ public class Frontend {
       switch (userInput) {
         case "1":
           // remove first
-          toRemove = itinerary.get(0);
-          success = backend.removeFromItinerary(toRemove.get(toRemove.size() - 1).getName());
-          if (success) {
-            System.out.println("Itinerary successfully removed!");
+          if (!itinerary.isEmpty()) {
+            toRemove = itinerary.get(0);
+            success = backend.removeFromItinerary(toRemove.get(toRemove.size() - 1).getName());
+            if (success) {
+              System.out
+                  .println("Itinerary successfully removed! Enter x to return to the main menu.");
+              break;
+            } else {
+              System.out.println(
+                  "There was a problem removing the itinerary. Enter x to return to the main menu.");
+              break;
+            }
           } else {
-            System.out.println("There was a problem removing the itinerary.");
+            System.out.println("There's nothing to remove! Enter x to return to the main menu.");
+            break;
           }
         case "2":
           // remove second
-          toRemove = itinerary.get(1);
-          success = backend.removeFromItinerary(toRemove.get(toRemove.size() - 1).getName());
-          if (success) {
-            System.out.println("Itinerary successfully removed!");
+          if (!itinerary.isEmpty()) {
+            toRemove = itinerary.get(1);
+            success = backend.removeFromItinerary(toRemove.get(toRemove.size() - 1).getName());
+            if (success) {
+              System.out
+                  .println("Itinerary successfully removed! Enter x to return to the main menu.");
+              break;
+            } else {
+              System.out.println(
+                  "There was a problem removing the itinerary. Enter x to return to the main menu.");
+              break;
+            }
           } else {
-            System.out.println("There was a problem removing the itinerary.");
+            System.out.println("There's nothing to remove! Enter x to return to the main menu.");
+            break;
           }
         case "3":
           // remove third
-          toRemove = itinerary.get(2);
-          success = backend.removeFromItinerary(toRemove.get(toRemove.size() - 1).getName());
-          if (success) {
-            System.out.println("Itinerary successfully removed!");
+          if (!itinerary.isEmpty()) {
+            toRemove = itinerary.get(2);
+            success = backend.removeFromItinerary(toRemove.get(toRemove.size() - 1).getName());
+            if (success) {
+              System.out
+                  .println("Itinerary successfully removed! Enter x to return to the main menu.");
+              break;
+            } else {
+              System.out.println(
+                  "There was a problem removing the itinerary. Enter x to return to the main menu.");
+              break;
+            }
           } else {
-            System.out.println("There was a problem removing the itinerary.");
+            System.out.println("There's nothing to remove! Enter x to return to the main menu.");
+            break;
           }
       }
 
