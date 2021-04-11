@@ -9,7 +9,6 @@
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
 /**
  * Frontend implementation of "The Golden Eagle Path". Gives users the ability to plan a trip to a
@@ -21,6 +20,7 @@ import java.util.Set;
  */
 
 public class Frontend {
+  private static Scanner scan = new Scanner(System.in);
   private static Backend backend;
   private static final String WELCOME_TEXT = "|* * * * * * * * * * OOOOOOOOOOOOOOOOOOOOOOOOO|\n"
       + "| * * * * * * * * *  :::::::::::::::::::::::::|\n"
@@ -62,7 +62,6 @@ public class Frontend {
   public void run(Backend back) {
     backend = back;
     String userInput = "";
-    Scanner scan = new Scanner(System.in);
 
     System.out.println(WELCOME_TEXT + BASE_DISPLAY_MENU);
 
@@ -81,6 +80,9 @@ public class Frontend {
           break;
       }
 
+      if (!userInput.equalsIgnoreCase("x")) {
+        System.out.println(BASE_DISPLAY_MENU);
+      }
       if (!userInput.equalsIgnoreCase("x") && !userInput.equalsIgnoreCase("1")
           && !userInput.equalsIgnoreCase("2") && !userInput.equalsIgnoreCase("3")) {
         System.out.println("Unable to recognize the input. Please try again.");
@@ -91,102 +93,174 @@ public class Frontend {
   }
 
   private static void printList() {
-    List<ParkInterface> list = backend.getThreeParks();
+    List<ParkInterface> list = backend.getAllParks();
     System.out.println(LIST_OPTION);
     int counter = 1;
     for (ParkInterface park : list) {
-      System.out.println(counter + ". " + park.getName() + "\n");
-      counter++;
+      if (!park.getName().equals("Madison (City)")) {
+        System.out.println(counter + ". " + park.getName() + "     "
+            + park.getStates().replaceAll("\"", "") + "\n");
+        counter++;
+      }
     }
-    
+
     System.out.println("\nWould you like to go to any of these parks?"
-        + "\n___________________________________________" 
-        + "\nJust enter the number of the park you wish " 
-        + "\nto visit." 
+        + "\n___________________________________________"
+        + "\nJust enter the number of the park you wish " + "\nto visit."
         + "\nx - Main menu please!");
-    Scanner scan = new Scanner(System.in);
     String userInput = "";
     do {
       userInput = scan.nextLine().trim();
       // find shortest path of corresponding park
+      if (!userInput.equalsIgnoreCase("x")) {
+        try {
+          int index = Integer.parseInt(userInput) - 1;
+          if (index <= 0 || index > 50) {
+            throw new NumberFormatException();
+          }
+          List<ParkInterface> shortestPath = backend.getPathSequence(list.get(index).getName());
+          for (ParkInterface park : shortestPath) {
+            if (!park.getName().equals("Madison (City)")) {
+              System.out.println(park.getName() + "     " + park.getStates().replaceAll("\"", "")
+                  + "\n     " + park.getDescription().replaceAll("\"", "") + "\n");
+            }
+          }
+          System.out.println(
+              "Total distance: " + backend.shortestPath(list.get(index).getName()) + " miles");
+
+          System.out.println("\nWould you like to save this itinerary to your list?"
+              + "\n___________________________________________" + "\nY - Yes! This looks fun!"
+              + "\nN - No. I want to go somewhere else."
+              + "\nx - I want to go back to the main menu.");
+          do {
+            userInput = scan.nextLine().trim().toLowerCase();
+
+            switch (userInput) {
+              case "y":
+                // add to itinerary
+                boolean success = backend.addToItinerary();
+                if (success) {
+                  System.out.println(
+                      "Itinerary successfully added! Enter x to go back to the main menu.");
+                  break;
+                } else {
+                  System.out.println(
+                      "Your list is full! Itinerary NOT added. Enter x to go back to the main menu.");
+                  break;
+                }
+            }
+            if (!userInput.equalsIgnoreCase("y") && !userInput.equalsIgnoreCase("n")
+                && !userInput.equalsIgnoreCase("x")) {
+              System.out.println("Unable to recognize the input. Please try again.");
+            }
+          } while (!userInput.equalsIgnoreCase("x"));
+        } catch (NumberFormatException nfe) {
+          System.out.println("Unable to recognize the input. Please try again.");
+        }
+      }
     } while (!userInput.equalsIgnoreCase("x"));
-    
-    scan.close();
   }
 
   private static void randomSuggestion() {
     List<ParkInterface> randPath = backend.getRandPath();
     System.out.println(RAND_OPTION + "Here's your itinerary:\n");
     for (ParkInterface park : randPath) {
-      System.out.println(park.getName() + "\n");
+      if (!park.getName().equals("Madison (City)")) {
+        System.out.println(park.getName() + "     " + park.getStates().replaceAll("\"", "")
+            + "\n     " + park.getDescription().replaceAll("\"", "") + "\n");
+      }
     }
-    
+    System.out.println("Total distance: "
+        + backend.shortestPath(randPath.get(randPath.size() - 1).getName()) + " miles");
+
     System.out.println("\nWould you like to save this itinerary to your list?"
-        + "\n___________________________________________" 
-        + "\nY - Yes! This looks fun!"
-        + "\nN - No. I want to go somewhere else." 
+        + "\n___________________________________________" + "\nY - Yes! This looks fun!"
         + "\nx - I want to go back to the main menu.");
-    Scanner scan = new Scanner(System.in);
     String userInput = "";
     do {
       userInput = scan.nextLine().trim().toLowerCase();
-      
+
       switch (userInput) {
         case "y":
           // add to itinerary
-          ParkInterface dest = randPath.get(randPath.size() - 1);
-          boolean success = backend.addToItinerary(dest.getName());
+          boolean success = backend.addToItinerary();
           if (success) {
-            System.out.println("Itinerary successfully added!");
+            System.out
+                .println("Itinerary successfully added! Enter x to go back to the main menu.");
+            break;
           } else {
-            System.out.println("Your list is full! Itinerary NOT added.");
+            System.out.println(
+                "Your list is full! Itinerary NOT added. Enter x to go back to the main menu.");
+            break;
           }
-        if (!userInput.equalsIgnoreCase("y") && !userInput.equalsIgnoreCase("n") && !userInput.equalsIgnoreCase("x")) {
-          System.out.println("Unable to recognize the input. Please try again.");
-        }
       }
-    } while (!userInput.equalsIgnoreCase("x"));
-    
-    scan.close();
-  }
-
-  private static void displaySavedPlans() {
-    Set<ParkInterface> itinerary = backend.getItinerary();
-    System.out.println(SAVED_PLANS + "Here are your saved itineraries:");
-    int counter = 1;
-    for (ParkInterface park : itinerary) {
-      System.out.println(counter + ". " + park.getName() + "\n");
-      counter++;
-    }
-    
-    System.out.println("\nWould you like to remove any itinerary from your list?"
-        + "\n___________________________________________" 
-        + "\nJust enter the number of the itinerary you " 
-        + "\nwould like to remove." 
-        + "\nx - Take me back to the main menu!");
-    Scanner scan = new Scanner(System.in);
-    String userInput = "";
-    do {
-      userInput = scan.nextLine().trim();
-      
-      switch (userInput) {
-        case "1":
-          //remove first
-        case "2":
-          //remove second
-        case "3":
-          //remove third
-      }
-      
-      if (!userInput.equals("1") && !userInput.equals("2") && !userInput.equals("3") && !userInput.equalsIgnoreCase("x")) {
+      if (!userInput.equalsIgnoreCase("y") && !userInput.equalsIgnoreCase("x")) {
         System.out.println("Unable to recognize the input. Please try again.");
       }
     } while (!userInput.equalsIgnoreCase("x"));
-    
-    scan.close();
   }
 
-//  public static void main(String[] args) {
-//    run(backend);
-//  }
+  private static void displaySavedPlans() {
+    List<List<ParkInterface>> itinerary = backend.getItinerary();
+    System.out.println(SAVED_PLANS + "Here are your saved itineraries:\n");
+    int counter = 1;
+    for (List<ParkInterface> list : itinerary) {
+      System.out.println(counter + ". ");
+      for (ParkInterface park : list) {
+        if (!park.getName().equals("Madison (City)")) {
+          System.out.println(park.getName() + "     " + park.getStates().replaceAll("\"", "")
+              + "\n     " + park.getDescription().replaceAll("\"", "") + "\n");
+        }
+      }
+      counter++;
+      System.out.println(
+          "Total distance: " + backend.shortestPath(list.get(list.size() - 1).getName()) + "\n");
+    }
+
+    System.out.println("\nWould you like to remove any itinerary from your list?"
+        + "\n___________________________________________"
+        + "\nJust enter the number of the itinerary you " + "\nwould like to remove."
+        + "\nx - Take me back to the main menu!");
+    String userInput = "";
+    do {
+      userInput = scan.nextLine().trim();
+      boolean success = false;
+      List<ParkInterface> toRemove;
+
+      switch (userInput) {
+        case "1":
+          // remove first
+          toRemove = itinerary.get(0);
+          success = backend.removeFromItinerary(toRemove.get(toRemove.size() - 1).getName());
+          if (success) {
+            System.out.println("Itinerary successfully removed!");
+          } else {
+            System.out.println("There was a problem removing the itinerary.");
+          }
+        case "2":
+          // remove second
+          toRemove = itinerary.get(1);
+          success = backend.removeFromItinerary(toRemove.get(toRemove.size() - 1).getName());
+          if (success) {
+            System.out.println("Itinerary successfully removed!");
+          } else {
+            System.out.println("There was a problem removing the itinerary.");
+          }
+        case "3":
+          // remove third
+          toRemove = itinerary.get(2);
+          success = backend.removeFromItinerary(toRemove.get(toRemove.size() - 1).getName());
+          if (success) {
+            System.out.println("Itinerary successfully removed!");
+          } else {
+            System.out.println("There was a problem removing the itinerary.");
+          }
+      }
+
+      if (!userInput.equals("1") && !userInput.equals("2") && !userInput.equals("3")
+          && !userInput.equalsIgnoreCase("x")) {
+        System.out.println("Unable to recognize the input. Please try again.");
+      }
+    } while (!userInput.equalsIgnoreCase("x"));
+  }
 }
