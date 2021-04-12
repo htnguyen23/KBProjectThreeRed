@@ -76,31 +76,24 @@ public class DataWranglerTests {
     @Test
     public void testParkDescriptionReader() {
         ParkDataReader reader = null;
-
-        FileReader inputFileReader = null;
-        FileReader fileReader2 = null;
         try {
-            inputFileReader = new FileReader("test_parkData.csv");
+//            inputFileReader = new FileReader("test_parkData.csv");
             reader = new ParkDataReader();
-            List<Park> result = reader.readData(inputFileReader);
+//            List<Park> result = reader.readData(inputFileReader);
+            List<List<String>> updatedRes = reader.readDataDescriptions( new FileReader("test_parkDescriptions.csv"));
 
-            fileReader2 = new FileReader("test_parkDescriptions.csv");
-            List<Park> updatedRes = reader.readDataDescriptions(fileReader2,result);
+            assertEquals("p1",updatedRes.get(0).get(0));
+            assertEquals("Maine",updatedRes.get(0).get(2));
+            String three = updatedRes.get(0).get(1);
+            assertTrue(updatedRes.get(0).get(1).contains("p1 description, contains commas"));
 
-            assertEquals("p1",updatedRes.get(0).getName());
-            assertEquals("Maine",updatedRes.get(0).getStates());
-            assertEquals("p1 description, contains commas",updatedRes.get(0).getDescription());
+            assertEquals("p2",updatedRes.get(1).get(0));
+            assertEquals("Utah",updatedRes.get(1).get(2));
+            assertTrue(updatedRes.get(1).get(1).contains("p2 description, also contains commas"));
 
-            assertEquals("p2",updatedRes.get(1).getName());
-            assertEquals("Utah",updatedRes.get(1).getStates());
-            assertEquals("p2 description, also contains commas",updatedRes.get(1).getDescription());
-
-            assertEquals("p3",updatedRes.get(2).getName());
-            assertEquals("California, Nevada",updatedRes.get(2).getStates());
-            assertEquals("p3 has multiple states, and also has a description that has commas",updatedRes.get(2).getDescription());
-
-            inputFileReader.close();
-            fileReader2.close();
+            assertEquals("p3",updatedRes.get(2).get(0));
+            assertTrue(updatedRes.get(2).get(2).contains("California, Nevada"));
+            assertTrue(updatedRes.get(2).get(1).contains("p3 has multiple states, and also has a description that has commas"));
         } catch (IOException e) {
             fail("IOException");
         } catch (DataFormatException e) {
@@ -143,8 +136,10 @@ public class DataWranglerTests {
         FileReader inputFileReader = new FileReader("national_parks.csv");
         List<Park> result = reader.readData(inputFileReader);
         inputFileReader.close();
-        inputFileReader = new FileReader("National Park Descriptions and States.csv");
-        reader.readDataDescriptions(inputFileReader, result);
+        
+        // TODO: Change filename to valid csv
+        inputFileReader = new FileReader("national_park_info.csv");
+        reader.readDataDescriptions(inputFileReader);
         assertEquals(51, result.size()); // total # of parks in .csv = 51
 
         inputFileReader.close();
