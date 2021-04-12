@@ -12,8 +12,12 @@ import java.util.zip.DataFormatException;
 
 public class Main {
 
+  /**
+   * Main method that runs the program.
+   * 
+   * @param args - the filepaths of the necessary csv files
+   */
   public static void main(String[] args) {
-    // TODO Auto-generated method stub
     if (args == null) {
       System.out.println("<<< Please enter a .csv filename >>>");
       return;
