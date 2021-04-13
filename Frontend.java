@@ -20,7 +20,7 @@ import java.util.Scanner;
  */
 
 public class Frontend {
-  private static Scanner scan = new Scanner(System.in);
+  private Scanner scan = new Scanner(System.in);
   private static Backend backend;
   private static final String WELCOME_TEXT = "|* * * * * * * * * * OOOOOOOOOOOOOOOOOOOOOOOOO|\n"
       + "| * * * * * * * * *  :::::::::::::::::::::::::|\n"
@@ -103,7 +103,7 @@ public class Frontend {
    * and be shown the shortest path to. The user can then pick the resulting itinerary to add to the
    * saved searches list.
    */
-  private static void printList() {
+  private void printList() {
     // prints the full list of national parks
     List<ParkInterface> list = backend.getAllParks();
     System.out.println(LIST_OPTION);
@@ -178,7 +178,7 @@ public class Frontend {
    * shows the user the shortest path to it. The user has the option to add this itinerary to their
    * saved searches.
    */
-  private static void randomSuggestion() {
+  private void randomSuggestion() {
     // prints the shortest path to some random park
     List<ParkInterface> randPath = backend.getRandPath();
     System.out.println(RAND_OPTION + "Here's your itinerary:\n");
@@ -223,7 +223,7 @@ public class Frontend {
    * Prints out the user's saved itineraries list. Allows the user to remove any of the saved
    * itineraries from the list.
    */
-  private static void displaySavedPlans() {
+  private void displaySavedPlans() {
     // prints out the saved itineraries list
     List<List<ParkInterface>> itinerary = backend.getItinerary();
     System.out.println(SAVED_PLANS + "Here are your saved itineraries:\n");
