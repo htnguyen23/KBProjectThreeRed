@@ -8,7 +8,6 @@
 // Notes to Grader: <optional extra notes>
 
 
-import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.zip.DataFormatException;
 import org.junit.jupiter.api.BeforeEach;
@@ -90,19 +89,6 @@ class BackendTests {
     assertFalse(backend.addToItinerary());
     assertEquals(3, backend.getItinerary().size());
 
-  }
-
-  /**
-   * Try removing a route from an empty itinerary.
-   */
-  @Test
-  void testRemoveFromEmptyItinerary() {
-    Exception exception = assertThrows(NoSuchElementException.class, () -> {
-      backend.removeFromItinerary("Redwood");
-    });
-    String actualMessage = exception.getMessage();
-    String expectedMessage = "ERROR: Itinerary is empty";
-    assertTrue(actualMessage.contains(expectedMessage));
   }
 
   /**
