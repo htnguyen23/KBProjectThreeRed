@@ -21,12 +21,12 @@ public class Main {
     if (args == null) {
       System.out.println("<<< Please enter a .csv filename >>>");
       return;
-    } else if (args.length != 2) {
+    } else if (args.length != 0) {
       System.out.println("<<< Incorrect number of arguments >>>");
     }
 
-    String firstFile = args[0];
-    String secondFile = args[1];
+    String firstFile = "./national_parks.csv";
+    String secondFile = "./national_park_info.csv";
     Backend backend;
     try {
       backend = new Backend(firstFile, secondFile);
